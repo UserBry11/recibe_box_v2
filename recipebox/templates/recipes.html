@@ -1,0 +1,10 @@
+<h1> Recipe Details </h1>
+
+<ul>
+        <li>{{ recipes.title }}, by <a href="/author/{{ recipes.author }}"> {{ recipes.author }} </a></li>
+        <ul>
+            <p>Description: {{ recipes.description }}</p>
+            <p>Time Required: {{ recipes.time_required }}</p>
+            <p>Instructions: {{ recipes.instructions }} </p>
+        </ul>
+</ul>

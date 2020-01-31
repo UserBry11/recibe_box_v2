@@ -1,0 +1,14 @@
+<h1> Author's Recipes </h1>
+<h2> Name: {{ authors.name }} </h2>
+<h3> Byline: {{ authors.byline }}  </h3>
+
+<ul> 
+    {% for recipe in recipes %}
+        <li><a href="/recipe/{{ recipe.title }}">{{ recipe.title }} </a></li>
+        <ul>
+            <p>Description: {{ recipe.description }}</p>
+            <p>Time Required: {{ recipe.time_required }}</p>
+            <p>Instructions: {{ recipe.instructions }} </p>
+        </ul>
+    {% endfor %}
+</ul>
