@@ -1,7 +1,7 @@
 <h1> Recipe Details </h1>
 
-<ul>
-        <li>{{ recipes.title }}, by <a href="/author/{{ recipes.author }}"> {{ recipes.author }} </a></li>
+<ul style="text-align: center">
+        <li style="background-color: lightblue">{{ recipes.title }}, by <a href="/author/{{ recipes.author }}"> {{ recipes.author }} </a></li>
         <ul>
             <p>Description: {{ recipes.description }}</p>
             <p>Time Required: {{ recipes.time_required }}</p>
