@@ -28,6 +28,8 @@ urlpatterns = [
     path("recipe/<recipe>", views.recipes, name='recipe'),
     path("author/<author>", views.authors, name='author'),
     path("recipeadd/", views.recipe_add_view, name="recipeadd"),
-    path("authoradd/", views.author_add_view, name="authoradd")
-
+    path("authoradd/", views.author_add_view, name="authoradd"),
+    path("signup/", views.signup_view),
+    path("login/", views.login_view),
+    path('logout/', views.logout_view, name='logout')
 ]
