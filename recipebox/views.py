@@ -6,7 +6,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 
 from recipebox.models import Author, RecipeItem
-from recipebox.forms import RecipeAddForm, AuthorAddForm, SignupForm, LoginForm
+from recipebox.forms import RecipeAddForm, AuthorAddForm, LoginForm
 
 
 def index(request):
@@ -17,9 +17,11 @@ def recipes(request, recipe):
     return render(request, "recipes.html", {"recipes": RecipeItem.objects.get(title=recipe)})
 
 def authors(request, author):
+    recipes = RecipeItem.objects.filter(author__name=author)
+    authors = Author.objects.get(name=author)
     return render(request, "authors.html", 
-                    {"recipes": RecipeItem.objects.filter(author__name=author),
-                    "authors": Author.objects.get(name=author)})
+                    {"recipes": recipes,
+                    "authors": authors})
 
 @login_required()
 def recipe_add_view(request):
@@ -30,7 +32,7 @@ def recipe_add_view(request):
         if form.is_valid():
             data = form.cleaned_data
             RecipeItem.objects.create(
-                author=Author.objects.filter(id=data['author']).first(),
+                author=data['author'],
                 title=data['title'],
                 time_required=data['time_required'],
                 description=data['description'],
@@ -50,38 +52,19 @@ def author_add_view(request):
         form = AuthorAddForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            Author.objects.create(
-                name=data['name'],
-                byline=data['byline']
-            )
-            return HttpResponseRedirect(reverse("homepage"))
-
-    form = AuthorAddForm()
-
-    return render(request, html, {'form': form})
-
-def signup_view(request):
-    html = "generic_form.html"
-
-    if request.method == "POST":
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
             user = User.objects.create_user(
                 data['name'],
                 data['password'],
                 data['bio']
             )
-            login(request, user)
             Author.objects.create(
                 name=data['name'],
+                byline=data['byline'],
                 user=user
             )
-
             return HttpResponseRedirect(reverse("homepage"))
 
-    else:
-        form = SignupForm()
+    form = AuthorAddForm()
 
     return render(request, html, {'form': form})
 

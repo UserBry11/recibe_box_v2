@@ -11,8 +11,6 @@ class RecipeAddForm(forms.Form):
 class AuthorAddForm(forms.Form):
     name = forms.CharField(max_length=50)
     byline = forms.CharField(max_length=250)
-
-class SignupForm(forms.Form):
     name = forms.CharField(max_length=25)
     password = forms.CharField(max_length=25)
     bio = forms.CharField(max_length=300)
