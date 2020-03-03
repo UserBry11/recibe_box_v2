@@ -6,7 +6,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 
 from recipebox.models import Author, RecipeItem
-from recipebox.forms import RecipeAddForm, AuthorAddForm, LoginForm
+from recipebox.forms import RecipeAddForm, AuthorAddForm, LoginForm, EditRecipeForm
 
 
 def index(request):
@@ -88,3 +88,9 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('homepage'))
+
+
+def recipe_edit_view(request, id):
+    html = "editrecipe.html"
+    form = EditRecipeForm()
+    return render(request, html, {'form': form})

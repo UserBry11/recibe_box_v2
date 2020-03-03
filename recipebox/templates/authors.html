@@ -1,10 +1,11 @@
 <h1 style="text-align: center; color: white; background-color: lightblue"> Author's Recipes </h1>
+<a href="/">Back to homepage</a>
 <h2> Name: {{ authors.name }} </h2>
 <h3> Byline: {{ authors.byline }}  </h3>
 
 <ul style="text-align: center;"> 
     {% for recipe in recipes %}
-        <li style="background-color: lightblue"><a href="/recipe/{{ recipe.title }}">{{ recipe.title }} </a></li>
+        <li style="background-color: lightblue">Title: <a href="/recipe/{{ recipe.title }}">{{ recipe.title }} </a></li>
         <ul>
             <p>Description: {{ recipe.description }}</p>
             <p>Time Required: {{ recipe.time_required }}</p>
