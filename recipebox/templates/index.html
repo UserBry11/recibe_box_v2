@@ -1,14 +1,27 @@
 <h1> List of Recipes </h1>
-
+<div>
+    You are
+    {% if request.user.is_authenticated %}
+        Logged in as {{request.user}}
+        <button><a href="logout/"> Logout </a></button>
+    {% elif request.user.is_staff%}
+        Logged in as ADMIN: {{request.user}}
+        <button><a href="logout/"> Logout </a></button>
+    {% else %}
+        Logged in as Guest
+        <button><a href="login/"> Log In </a></button>
+        or
+        <a href="/signup/" ><button>Signup!</button></a>
+    {% endif %}
+</div>
 <ul>
     {% for recipe in data %}
-        <li><a href="/recipe/{{ recipe.title }}"> {{ recipe.title }} </a></li>
+        <li><a href="recipe/{{ recipe.title }}/"> {{ recipe.title }} </a></li>
     {% endfor %}
 </ul>
-<button><a href="/logout/"> Logout </a></button>
 
 <p>
-    <a href="/recipeadd/">Add recipe</a>
+    <a href="recipeadd/">Add recipe</a>
 </p>
 <p>
     <a href="authoradd/">Add Author</a>

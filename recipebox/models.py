@@ -26,6 +26,7 @@ class RecipeItem(models.Model):
     description = models.TextField()
     time_required = models.CharField(max_length=20)
     instructions = models.TextField()
+    favorite = models.BooleanField(default=False)
 
     def __str__(self):
         return "{} - {}".format(self.title, self.author)

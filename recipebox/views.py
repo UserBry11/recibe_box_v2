@@ -6,7 +6,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 
 from recipebox.models import Author, RecipeItem
-from recipebox.forms import RecipeAddForm, AuthorAddForm, LoginForm, EditRecipeForm
+from recipebox.forms import RecipeAddForm, AuthorAddForm, LoginForm, EditRecipeForm, SignupForm
 
 
 def index(request):
@@ -19,9 +19,13 @@ def recipes(request, recipe):
 def authors(request, author):
     recipes = RecipeItem.objects.filter(author__name=author)
     authors = Author.objects.get(name=author)
+    favorites = recipes.filter(favorite=True)
+
     return render(request, "authors.html", 
                     {"recipes": recipes,
-                    "authors": authors})
+                    "authors": authors,
+                    "favorites": favorites,
+                    })
 
 @login_required()
 def recipe_add_view(request):
@@ -92,5 +96,64 @@ def logout_view(request):
 
 def recipe_edit_view(request, id):
     html = "editrecipe.html"
-    form = EditRecipeForm()
+
+    recipe = RecipeItem.objects.get(id=id)
+    save_data = {
+        "title": recipe.title,
+        "author": recipe.author,
+        "description": recipe.description,
+        "time_required": recipe.time_required,
+        "instructions": recipe.instructions
+    }
+
+    if request.method == "POST":
+        form = EditRecipeForm(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+
+            recipe.title = data['title']
+            recipe.author = data['author']
+            recipe.description = data['description']
+            recipe.time_required = data['time_required']
+            recipe.instructions = data['instructions']
+            recipe.save()
+            
+            return HttpResponseRedirect(reverse("homepage"))
+
+    form = EditRecipeForm(save_data)
+
+    return render(request, html, {'form': form})
+
+
+def favorite_view(request, id):
+    recipe = RecipeItem.objects.get(id=id)
+    recipe.favorite = True
+    recipe.save()
+
+    return HttpResponseRedirect(reverse("homepage"))
+
+
+def signup_view(request):
+    html = "signup.html"
+
+    if request.method == "POST":
+        form = SignupForm(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+
+            user = User.objects.create_user(
+                data['username'],
+                data['password'],
+            )
+
+            # login(request, user)
+            Author.objects.create(
+                name=data['username'],
+                user=user
+            )
+            return HttpResponseRedirect(reverse("login"))
+
+    form = SignupForm()
     return render(request, html, {'form': form})

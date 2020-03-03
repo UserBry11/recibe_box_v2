@@ -2,13 +2,16 @@
 <h1> Recipe Details </h1>
 
 <ul style="text-align: center">
-        <li style="background-color: lightblue">{{ recipes.title }}, by <a href="/author/{{ recipes.author}}"> {{ recipes.author }} </a></li>
+        <li style="background-color: lightblue">{{ recipes.title }}, by <a href="/author/{{ recipes.author}}/"> {{ recipes.author }} </a></li>
         <ul>
             <p>Description: {{ recipes.description }}</p>
             <p>Time Required: {{ recipes.time_required }}</p>
             <p>Instructions: {{ recipes.instructions }} </p>
+            {% if request.user.is_authenticated %}
+                <a href="/recipe/favorite/{{recipes.id}}/" ><button style="background-color: rgb(255, 148, 148);">Favorite</button></a>
+            {% endif %}
         </ul>
         <p>
-            <a href="{{recipes.id}}/edit/">Edit Recipes Here!</a>
+            <a href="/recipe/{{recipes.id}}/edit/">Edit Recipes Here!</a>
         </p>
 </ul>
