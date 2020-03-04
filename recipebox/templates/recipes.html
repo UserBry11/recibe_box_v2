@@ -8,10 +8,23 @@
             <p>Time Required: {{ recipes.time_required }}</p>
             <p>Instructions: {{ recipes.instructions }} </p>
             {% if request.user.is_authenticated %}
+            <p>
                 <a href="/recipe/favorite/{{recipes.id}}/" ><button style="background-color: rgb(255, 148, 148);">Favorite</button></a>
+            </p>
             {% endif %}
         </ul>
+
+        {% if flag %}
         <p>
             <a href="/recipe/{{recipes.id}}/edit/">Edit Recipes Here!</a>
         </p>
+        {% elif request.user.is_staff %}
+        
+        Hello ADMIN USER:
+        <p>
+            <a href="/recipe/{{recipes.id}}/edit/">Edit Recipes Here!</a>
+        </p>
+        {% else %}
+
+        {% endif %}
 </ul>

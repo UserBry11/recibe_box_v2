@@ -14,7 +14,13 @@ def index(request):
     return render(request, "index.html", {"data": items})
 
 def recipes(request, recipe):
-    return render(request, "recipes.html", {"recipes": RecipeItem.objects.get(title=recipe)})
+    recipes = RecipeItem.objects.get(title=recipe)
+    flag = False
+
+    if str(request.user) == str(recipes.author):
+        flag = True
+
+    return render(request, "recipes.html", {"recipes": recipes, "flag": flag})
 
 def authors(request, author):
     recipes = RecipeItem.objects.filter(author__name=author)
@@ -59,7 +65,7 @@ def author_add_view(request):
             user = User.objects.create_user(
                 data['name'],
                 data['password'],
-                data['bio']
+                # data['bio']
             )
             Author.objects.create(
                 name=data['name'],
@@ -80,7 +86,7 @@ def login_view(request):
         if form.is_valid():
             data = form.cleaned_data
             user = authenticate(username=data['username'], password=data['password'])
-            login(request, user)
+            # login(request, user)
             if user is not None:
                 login(request, user)
                 # Where we want to go next after logging in correctly
@@ -148,12 +154,12 @@ def signup_view(request):
                 data['password'],
             )
 
-            # login(request, user)
+            login(request, user)
             Author.objects.create(
                 name=data['username'],
                 user=user
             )
-            return HttpResponseRedirect(reverse("login"))
+            return HttpResponseRedirect(reverse("homepage"))
 
     form = SignupForm()
     return render(request, html, {'form': form})
