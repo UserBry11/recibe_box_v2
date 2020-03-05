@@ -3,6 +3,16 @@
 <h2> Name: {{ authors.name }} </h2>
 <h3> Byline: {{ authors.byline }}  </h3>
 <h4>Favorites at bottom of page</h4>
+<h2>Favorites!</h2>
+<ul>
+    {% for each in favorites %}
+    <li>
+        <a href="/recipe/{{each.title}}/">
+            {{each.title}}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
 
 <ul style="text-align: center;"> 
     {% for recipe in recipes %}
@@ -12,15 +22,5 @@
             <p>Time Required: {{ recipe.time_required }}</p>
             <p>Instructions: {{ recipe.instructions }} </p>
         </ul>
-    {% endfor %}
-</ul>
-<h2>Favorites!</h2>
-<ul>
-    {% for each in favorites %}
-    <li>
-        <a href="/recipe/{{each.title}}/">
-            {{each.title}}
-        </a>
-    </li>
     {% endfor %}
 </ul>
