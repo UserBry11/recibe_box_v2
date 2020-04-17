@@ -1,0 +1,26 @@
+{% if request.user.is_authenticated %}
+<style>
+    body {
+        background-image: url(https://media.giphy.com/media/E1v4GJ5LkcPHa/giphy.gif);
+        background-size: cover;
+    }
+</style>
+{% else %}
+
+<style>
+    body {
+        background-image: url(https://media.giphy.com/media/LPPL1gpbaeiM8/giphy.gif);
+        background-size: cover;
+    }
+</style>
+
+{% endif %}
+
+<a href="/">Back to homepage</a>
+<h1>Signup!</h1>
+
+<form action="" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Press Ok to Finalize">
+</form>
